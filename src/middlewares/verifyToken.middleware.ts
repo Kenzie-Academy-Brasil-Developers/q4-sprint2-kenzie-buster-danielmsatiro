@@ -9,7 +9,7 @@ dotenv.config();
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers.authorization?.split(" ")[1];
 
-  //verifyToken can be used in routes with optional authentication
+  //verifyToken can also be used in routes as optional authentication
   if (!token) {
     return next();
   }

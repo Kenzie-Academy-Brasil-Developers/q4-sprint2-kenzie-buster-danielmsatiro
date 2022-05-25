@@ -28,13 +28,6 @@ class UserService {
       });
     }
 
-    /* if (!(await user.comparePwd(validated.password))) {
-      return {
-        status: 401,
-        message: { message: "Invalid credentials" },
-      };
-    } */
-
     const token: string = sign({ id: user.id }, process.env.SECRET_KEY, {
       expiresIn: process.env.EXPIRES_IN,
     });
@@ -45,20 +38,23 @@ class UserService {
     };
   };
 
-  createUser = async ({
-    validated,
-    userAuth,
-  }: Request): Promise<AssertsShape<any>> => {
-    if (validated.isAdm && !userAuth.isAdm) {
-      throw new ErrorHandler(401, {
-        error: {
-          name: "JsonWebTokenError",
-          message: "jwt malformed",
-        },
-      });
+  createUser = async (req: Request): Promise<AssertsShape<any>> => {
+    if (req.validated?.isAdm) {
+      if (!req.userAuth) {
+        throw new ErrorHandler(401, {
+          error: "missing admin permission",
+        });
+      } else if (!req.userAuth.isAdm) {
+        throw new ErrorHandler(401, {
+          error: {
+            name: "JsonWebTokenError",
+            message: "jwt malformed",
+          },
+        });
+      }
     }
 
-    const user: User = await userRepository.save(validated);
+    const user: User = await userRepository.save(req.validated);
 
     return await serializedCreateUserSchema.validate(user, {
       stripUnknown: true,
