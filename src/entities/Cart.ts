@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+/* import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity("cart")
 export class Cart {
@@ -10,4 +10,4 @@ export class Cart {
 
   @Column({ type: "float" })
   total: number;
-}
+} */

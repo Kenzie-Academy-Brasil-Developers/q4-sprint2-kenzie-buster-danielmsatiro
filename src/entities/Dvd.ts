@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+/* import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity("dvd")
 export class Dvd {
@@ -11,3 +11,4 @@ export class Dvd {
   @Column()
   duration: string;
 }
+ */

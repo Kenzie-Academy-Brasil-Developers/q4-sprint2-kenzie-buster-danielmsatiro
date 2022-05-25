@@ -10,10 +10,13 @@ export class User {
   name: string;
 
   @Column({ unique: true })
+  email: string;
+
+  @Column()
   password: string;
 
   @Column({ default: false })
-  isAdmin?: boolean;
+  isAdm?: boolean;
 
   comparePwd = async (recievedPwd: string): Promise<boolean> => {
     return await compare(recievedPwd, this.password);

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+/* import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity("stock")
 export class Stock {
@@ -10,4 +10,4 @@ export class Stock {
 
   @Column({ unique: true, type: "numeric" })
   price: number;
-}
+} */
