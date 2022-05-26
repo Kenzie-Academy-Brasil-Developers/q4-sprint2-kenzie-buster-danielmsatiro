@@ -15,6 +15,9 @@
     "build": "tsc",
     "test": "jest"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "dotenv": "^16.0.0",
