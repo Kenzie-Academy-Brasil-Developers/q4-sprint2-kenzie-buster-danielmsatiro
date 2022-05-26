@@ -6,4 +6,5 @@ tmp/
 temp/
 .env
 *.lock
-package-lock*
+package-lock.json
+yarn-error.log
