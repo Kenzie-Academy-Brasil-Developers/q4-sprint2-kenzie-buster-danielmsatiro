@@ -20,9 +20,9 @@ export class Dvd {
   duration: string;
 
   @OneToOne(() => Cart, (cart) => cart.dvd)
-  cart: Cart;
+  cart?: Cart;
 
-  @OneToOne(() => Stock, (stock) => stock)
+  @OneToOne(() => Stock, (stock) => stock, { eager: true })
   @JoinColumn()
   stock: Stock;
 }

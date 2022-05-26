@@ -13,7 +13,7 @@ const verifyUserExists = async (
 
   if (foundUser) {
     return res.status(409).json({
-      error: `Key (email)=(${req.validated.email}) already exists.`,
+      error: `Key (email)=(${(req.validated as User).email}) already exists.`,
     });
   }
 

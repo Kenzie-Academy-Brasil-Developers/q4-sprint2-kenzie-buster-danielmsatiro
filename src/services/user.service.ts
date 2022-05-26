@@ -17,10 +17,10 @@ interface ILogin {
 class UserService {
   loginUser = async ({ validated }: Request): Promise<ILogin> => {
     const user: User = await userRepository.findOne({
-      email: validated.email,
+      email: (validated as User).email,
     });
 
-    if (!user || !(await user.comparePwd(validated.password))) {
+    if (!user || !(await user.comparePwd((validated as User).password))) {
       throw new ErrorHandler(401, {
         error: {
           message: "Invalid credentials",
@@ -39,7 +39,7 @@ class UserService {
   };
 
   createUser = async (req: Request): Promise<AssertsShape<any>> => {
-    if (req.validated?.isAdm) {
+    if ((req.validated as User)?.isAdm) {
       if (!req.userAuth) {
         throw new ErrorHandler(401, {
           error: "missing admin permission",
@@ -54,7 +54,7 @@ class UserService {
       }
     }
 
-    const user: User = await userRepository.save(req.validated);
+    const user: User = await userRepository.save(req.validated as User);
 
     return await serializedCreateUserSchema.validate(user, {
       stripUnknown: true,

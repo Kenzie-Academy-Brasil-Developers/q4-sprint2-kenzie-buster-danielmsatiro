@@ -28,7 +28,6 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
     const user: User = await userRepository.findOne({ id: (<any>decoded).id });
 
     req.userAuth = user;
-
     return next();
   });
 };

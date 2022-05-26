@@ -9,9 +9,9 @@ export class Stock {
   @Column({ type: "integer" })
   quantity: number;
 
-  @Column({ unique: true, type: "numeric" })
+  @Column({ type: "numeric" })
   price: number;
 
   @OneToOne(() => Dvd, (dvd) => dvd.stock)
-  dvd: Dvd;
+  dvd?: Dvd;
 }

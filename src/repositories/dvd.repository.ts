@@ -3,7 +3,7 @@ import { AppDataSource } from "../data-source";
 import { Dvd } from "../entities";
 
 interface IDvdRepo {
-  save: (dvds: Partial<Dvd[]>) => Promise<Dvd[]>;
+  save: (dvd: Partial<Dvd[]>) => Promise<Dvd[]>;
   all: () => Promise<Dvd[]>;
   findOne: (payload: object) => Promise<Dvd>;
 }
