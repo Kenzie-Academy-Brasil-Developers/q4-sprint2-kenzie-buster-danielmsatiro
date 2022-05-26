@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { dvdController } from "../controllers";
 import { validateSchema, verifyToken } from "../middlewares";
-import { createDvdSchema } from "../schemas/dvd/createDvd.schema";
+import { buyDvdSchema, createDvdSchema } from "../schemas/dvd";
 
 const routes = Router();
 
@@ -13,7 +13,12 @@ export const dvdRoutes = () => {
     dvdController.createDvd
   );
   routes.get("/", dvdController.listDvds);
-  routes.post("/buy/:dvdId");
+  routes.post(
+    "/buy/:dvdId",
+    validateSchema(buyDvdSchema),
+    verifyToken,
+    dvdController.buyDvd
+  );
 
   return routes;
 };

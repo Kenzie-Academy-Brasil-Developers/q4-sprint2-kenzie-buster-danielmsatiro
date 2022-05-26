@@ -4,6 +4,7 @@ import {
   Column,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from "typeorm";
 import { Cart } from "./Cart";
 import { Stock } from "./Stock";
@@ -19,8 +20,8 @@ export class Dvd {
   @Column()
   duration: string;
 
-  @OneToOne(() => Cart, (cart) => cart.dvd)
-  cart?: Cart;
+  @OneToMany(() => Cart, (cart) => cart.dvd)
+  cart?: Cart[];
 
   @OneToOne(() => Stock, (stock) => stock, { eager: true })
   @JoinColumn()

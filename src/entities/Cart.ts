@@ -1,11 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  OneToOne,
-  JoinColumn,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { Dvd } from "./Dvd";
 import { User } from "./User";
 
@@ -15,15 +8,14 @@ export class Cart {
   id?: string;
 
   @Column({ default: false })
-  paid: boolean;
+  paid?: boolean;
 
   @Column({ type: "float" })
   total: number;
 
-  @ManyToOne(() => User, (user) => user)
+  @ManyToOne(() => User, (user) => user, { eager: true })
   user: User;
 
-  @OneToOne(() => Dvd, (dvd) => dvd, { nullable: true })
-  @JoinColumn()
+  @ManyToOne(() => Dvd, (dvd) => dvd, { eager: true })
   dvd: Dvd;
 }

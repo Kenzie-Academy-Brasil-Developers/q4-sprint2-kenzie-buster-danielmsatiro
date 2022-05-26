@@ -3,9 +3,10 @@ import { Dvd, Stock } from "../entities";
 import { dvdRepository, stockRepository } from "../repositories";
 
 import { AssertsShape } from "yup/lib/object";
-import { serializedCreateDvdSchema } from "../schemas/dvd/createDvd.schema";
+import { serializedDvdSchema } from "../schemas/dvd";
 import { ErrorHandler } from "../errors";
 import { IDvdCreateList } from "../@types/express";
+import { cartService } from "./";
 
 class DvdService {
   createDvd = async (req: Request): Promise<AssertsShape<any>> => {
@@ -35,9 +36,9 @@ class DvdService {
       dvd.stock = await stockRepository.save(newStock);
     }
 
-    const newDvds = await dvdRepository.save(dvds);
+    const newDvds = await dvdRepository.saveMany(dvds);
 
-    return await serializedCreateDvdSchema.validate(
+    return await serializedDvdSchema.validate(
       { dvds: newDvds },
       {
         stripUnknown: true,
@@ -48,7 +49,33 @@ class DvdService {
   listDvds = async (): Promise<AssertsShape<any>> => {
     const dvds = await dvdRepository.all();
     return { dvds };
-    return serializedCreateDvdSchema.validate({ dvds }, { stripUnknown: true });
+    return serializedDvdSchema.validate({ dvds }, { stripUnknown: true });
+  };
+
+  buyDvd = async (dvdId: string, req: Request): Promise<AssertsShape<any>> => {
+    if (!req.userAuth) {
+      throw new ErrorHandler(401, {
+        error: "missing admin permission",
+      });
+    }
+
+    const dvd = await dvdRepository.findOne({ id: dvdId });
+
+    if (!dvd) {
+      throw new ErrorHandler(402, {
+        error: `dvd not found`,
+      });
+    }
+
+    const quantity = req?.body?.quantity;
+
+    if (quantity > dvd.stock.quantity) {
+      throw new ErrorHandler(422, {
+        error: `current stock: ${dvd.stock.quantity}, received demand ${quantity}`,
+      });
+    }
+
+    return cartService.createCart(dvd, req.userAuth, quantity);
   };
 }
 
