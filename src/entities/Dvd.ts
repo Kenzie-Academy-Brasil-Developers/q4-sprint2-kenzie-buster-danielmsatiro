@@ -1,4 +1,12 @@
-/* import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+} from "typeorm";
+import { Cart } from "./Cart";
+import { Stock } from "./Stock";
 
 @Entity("dvd")
 export class Dvd {
@@ -10,5 +18,11 @@ export class Dvd {
 
   @Column()
   duration: string;
+
+  @OneToOne(() => Cart, (cart) => cart.dvd)
+  cart: Cart;
+
+  @OneToOne(() => Stock, (stock) => stock)
+  @JoinColumn()
+  stock: Stock;
 }
- */

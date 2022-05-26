@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { userController } from "../controllers";
 import { validateSchema, verifyToken, verifyUserExists } from "../middlewares";
-import { createUserSchema, loginUserSchema } from "../schemas";
+import { createUserSchema, loginUserSchema } from "../schemas/user";
 
 const routes = Router();
 

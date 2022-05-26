@@ -16,7 +16,7 @@ class ErrorHandler {
 
 const errorHandler = (err: Error, res: Response) => {
   if (err instanceof ErrorHandler) {
-    return res.status(err.statusCode).json({ message: err.message });
+    return res.status(err.statusCode).json(err.message);
   }
 
   console.error(err);

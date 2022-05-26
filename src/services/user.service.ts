@@ -4,7 +4,7 @@ import { userRepository } from "../repositories";
 import * as dotenv from "dotenv";
 import { sign } from "jsonwebtoken";
 import { AssertsShape } from "yup/lib/object";
-import { serializedCreateUserSchema } from "../schemas";
+import { serializedCreateUserSchema } from "../schemas/user";
 import { ErrorHandler } from "../errors";
 
 dotenv.config();

@@ -1,4 +1,5 @@
-/* import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm";
+import { Dvd } from "./Dvd";
 
 @Entity("stock")
 export class Stock {
@@ -10,4 +11,7 @@ export class Stock {
 
   @Column({ unique: true, type: "numeric" })
   price: number;
-} */
+
+  @OneToOne(() => Dvd, (dvd) => dvd.stock)
+  dvd: Dvd;
+}
