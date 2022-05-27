@@ -22,6 +22,17 @@ describe("Testing the user routes", () => {
   const name = "name";
   const password = "password";
 
+  test("Should return unauthorized to create new administrator without permission", async () => {
+    const userData = { email, name, password, isAdm: true };
+
+    const response = await request(app)
+      .post("/api/users/register")
+      .send(userData);
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("error");
+  });
+
   test("Should be able to create a new user", async () => {
     const userData = { email, name, password };
 
@@ -48,44 +59,26 @@ describe("Testing the user routes", () => {
       .send(userData);
 
     expect(response.status).toBe(400);
-    expect(response.body).toEqual(
-      expect.objectContaining({
-        error: ["email is a required field", "password is a required field"],
-      })
-    );
+    expect(response.body).toHaveProperty("error");
   });
 
-  /* test("Should return conflict in create user with duplicate email", async () => {
+  test("Should return conflict in create user with duplicate email", async () => {
     const userData = { email, name, password };
 
-    await request(app).post("/api/users/register").send(userData);
     const response = await request(app)
       .post("/api/users/register")
       .send(userData);
 
     expect(response.status).toBe(409);
-    expect(response.body).toEqual(
-      expect.objectContaining({
-        error: "Key (email)=(email@mail.com) already exists.",
-      })
-    );
+    expect(response.body).toHaveProperty("error");
   });
- */
-  /* test("Should return unauthorized in create user with isAdm equals true", async () => {
-    const userData = {
-      email: "email@mail.com",
-      name: "name",
-      password: "password",
-      isAdmin: true,
-    };
 
-    const response = await request(app).post("/api/users/register").send(userData);
+  test("Should be able to login", async () => {
+    const userData = { email: email.toLowerCase(), password };
 
-    expect(response.status).toBe(401);
-    expect(response.body).toEqual(
-      expect.objectContaining({
-        error: "missing admin permission",
-      })
-    );
-  }); */
+    const response = await request(app).post("/api/users/login").send(userData);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("token");
+  });
 });
